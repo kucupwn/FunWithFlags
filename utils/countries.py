@@ -22,7 +22,7 @@ for c in os.listdir("public/flags"):
         {
             "id": country_id,
             "country": country,
-            "imagePath": f"public/flags/{c}",
+            "imagePath": f"/flags/{c}",
             "capital": capital,
         }
     )
