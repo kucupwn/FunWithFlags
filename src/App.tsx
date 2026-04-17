@@ -1,3 +1,5 @@
+import { Flags } from "./Flags";
+
 export function App() {
-  return <h1>Hello</h1>;
+  return <Flags />;
 }
