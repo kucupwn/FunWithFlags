@@ -1385,5 +1385,5 @@ export const countries = [
     imagePath: "/flags/Zimbabwe.gif",
     capital: "Harare",
   },
-  { id: 252, country: "Åland", imagePath: "/flags/Åland.gif", capital: "" },
+  { id: 252, country: "Aland", imagePath: "/flags/Aland.gif", capital: "" },
 ];
