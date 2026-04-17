@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { countries as countryData } from "./countries";
+
+interface Country {
+  id: number;
+  country: string;
+  imagePath: string;
+  capital: string;
+}
 
 const FlagSection = styled.div`
   display: flex;
@@ -15,17 +23,21 @@ const FlagContainer = styled.div`
 `;
 
 export function Flags() {
-  const [currentFlag, setcurrentFlag] = useState<string>("");
-  const [guessedFlags, setGuessedFlags] = useState<string[]>([]);
+  const [currentFlag, setCurrentFlag] = useState<Country | null>(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const random = countryData[Math.floor(Math.random() * countryData.length)];
+    setCurrentFlag(random);
+  }, []);
 
   return (
     <FlagSection>
       <input type="text" />
       <button>Guess</button>
       <FlagContainer>
-        <img src={currentFlag} alt={currentFlag} />
+        {currentFlag && (
+          <img src={currentFlag.imagePath} alt={currentFlag.country} />
+        )}
       </FlagContainer>
     </FlagSection>
   );
