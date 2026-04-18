@@ -21,6 +21,17 @@ const FlagSection = styled.div`
 const FlagContainer = styled.div`
   max-width: 500px;
   max-height: 400px;
+
+  @media (max-width: 768px) {
+    max-width: 300px;
+    max-height: 200px;
+  }
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export function Flags() {
@@ -43,7 +54,7 @@ export function Flags() {
     <FlagSection>
       <FlagContainer>
         {currentFlag && (
-          <img src={currentFlag.imagePath} alt={currentFlag.country} />
+          <Image src={currentFlag.imagePath} alt={currentFlag.country} />
         )}
       </FlagContainer>
       {!flagGuessed ? (
