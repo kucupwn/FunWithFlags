@@ -53,6 +53,8 @@ export function Flags() {
   function getNext() {
     setCurrentIndex(getRandomIndex());
     setCurrentFlag(countryData[currentIndex]);
+    setGuess("");
+    setFlagGuessed(false);
   }
 
   useEffect(() => {
