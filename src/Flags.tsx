@@ -15,6 +15,7 @@ const FlagSection = styled.div`
   justify-content: center;
   align-items: center;
   justify-self: center;
+  gap: 1rem;
 `;
 
 const FlagContainer = styled.div`
@@ -24,6 +25,7 @@ const FlagContainer = styled.div`
 
 export function Flags() {
   const [currentFlag, setCurrentFlag] = useState<Country | null>(null);
+  const [guess, setGuess] = useState<string>("");
 
   useEffect(() => {
     const random = countryData[Math.floor(Math.random() * countryData.length)];
@@ -32,13 +34,17 @@ export function Flags() {
 
   return (
     <FlagSection>
-      <input type="text" />
-      <button>Guess</button>
       <FlagContainer>
         {currentFlag && (
           <img src={currentFlag.imagePath} alt={currentFlag.country} />
         )}
       </FlagContainer>
+      <input
+        type="text"
+        value={guess}
+        onChange={(e) => setGuess(e.target.value)}
+      />
+      <button>Guess</button>
     </FlagSection>
   );
 }
