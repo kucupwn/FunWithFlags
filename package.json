@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "spotr": "^1.0.0-alpha.4",
     "styled-components": "^6.4.0"
   },
   "devDependencies": {
