@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { countries as countryData } from "./countries";
+import { useSpotr } from "spotr/react";
 
 interface Country {
   id: number;
@@ -40,8 +41,37 @@ export function Flags() {
   const [guess, setGuess] = useState<string>("");
   const [flagGuessed, setFlagGuessed] = useState<boolean>(false);
 
+  const spotr = useSpotr({
+    collection: countryData,
+    fields: [{ name: "country", weight: 0.75 }],
+  });
+  const stopWords = ["and", "of", "the"];
+
+  function normalizeName(name: string) {
+    return name
+      .toLowerCase()
+      .split(" ")
+      .filter((word) => !stopWords.includes(word));
+  }
+
   function handleGuess() {
-    if (guess.toLowerCase() === currentFlag?.country.toLowerCase()) {
+    if (!currentFlag || !guess) return;
+
+    const countryWords = normalizeName(currentFlag.country);
+
+    const res = spotr.query(guess);
+    const best = res.results.slice(0, 5);
+
+    const match = countryWords.some((countryWord) =>
+      best.some(
+        (r) =>
+          r &&
+          r.score >= 0.75 &&
+          normalizeName(r.item.country).includes(countryWord),
+      ),
+    );
+
+    if (match) {
       setFlagGuessed(true);
     }
   }
@@ -51,7 +81,8 @@ export function Flags() {
   }
 
   function getNext() {
-    setCurrentIndex(getRandomIndex());
+    const newIndex = getRandomIndex();
+    setCurrentIndex(newIndex);
     setCurrentFlag(countryData[currentIndex]);
     setGuess("");
     setFlagGuessed(false);
@@ -59,7 +90,7 @@ export function Flags() {
 
   useEffect(() => {
     setCurrentFlag(countryData[currentIndex]);
-  }, []);
+  }, [currentIndex]);
 
   return (
     <FlagSection>
