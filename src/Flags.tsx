@@ -26,6 +26,13 @@ const FlagContainer = styled.div`
 export function Flags() {
   const [currentFlag, setCurrentFlag] = useState<Country | null>(null);
   const [guess, setGuess] = useState<string>("");
+  const [flagGuessed, setFlagGuessed] = useState<boolean>(false);
+
+  function handleGuess() {
+    if (guess.toLowerCase() === currentFlag?.country.toLowerCase()) {
+      setFlagGuessed(true);
+    }
+  }
 
   useEffect(() => {
     const random = countryData[Math.floor(Math.random() * countryData.length)];
@@ -39,12 +46,18 @@ export function Flags() {
           <img src={currentFlag.imagePath} alt={currentFlag.country} />
         )}
       </FlagContainer>
-      <input
-        type="text"
-        value={guess}
-        onChange={(e) => setGuess(e.target.value)}
-      />
-      <button>Guess</button>
+      {!flagGuessed ? (
+        <>
+          <input
+            type="text"
+            value={guess}
+            onChange={(e) => setGuess(e.target.value)}
+          />
+          <button onClick={handleGuess}>Guess</button>
+        </>
+      ) : (
+        <h2>{currentFlag?.country}</h2>
+      )}
     </FlagSection>
   );
 }
