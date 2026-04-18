@@ -36,6 +36,7 @@ const Image = styled.img`
 
 export function Flags() {
   const [currentFlag, setCurrentFlag] = useState<Country | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number>(getRandomIndex());
   const [guess, setGuess] = useState<string>("");
   const [flagGuessed, setFlagGuessed] = useState<boolean>(false);
 
@@ -45,13 +46,22 @@ export function Flags() {
     }
   }
 
+  function getRandomIndex() {
+    return Math.floor(Math.random() * countryData.length);
+  }
+
+  function getNext() {
+    setCurrentIndex(getRandomIndex());
+    setCurrentFlag(countryData[currentIndex]);
+  }
+
   useEffect(() => {
-    const random = countryData[Math.floor(Math.random() * countryData.length)];
-    setCurrentFlag(random);
+    setCurrentFlag(countryData[currentIndex]);
   }, []);
 
   return (
     <FlagSection>
+      <button onClick={getNext}>Next</button>
       <FlagContainer>
         {currentFlag && (
           <Image src={currentFlag.imagePath} alt={currentFlag.country} />
