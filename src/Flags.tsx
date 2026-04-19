@@ -35,11 +35,17 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 300px;
+`;
+
 export function Flags() {
   const [currentFlag, setCurrentFlag] = useState<Country | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(getRandomIndex());
   const [guess, setGuess] = useState<string>("");
-  const [flagGuessed, setFlagGuessed] = useState<boolean>(false);
+  const [flagRevealed, setFlagRevealed] = useState<boolean>(false);
 
   const spotr = useSpotr({
     collection: countryData,
@@ -72,8 +78,10 @@ export function Flags() {
     );
 
     if (match) {
-      setFlagGuessed(true);
+      setFlagRevealed(true);
     }
+
+    setGuess("");
   }
 
   function getRandomIndex() {
@@ -85,7 +93,11 @@ export function Flags() {
     setCurrentIndex(newIndex);
     setCurrentFlag(countryData[currentIndex]);
     setGuess("");
-    setFlagGuessed(false);
+    setFlagRevealed(false);
+  }
+
+  function showAnswer() {
+    setFlagRevealed(true);
   }
 
   useEffect(() => {
@@ -98,6 +110,8 @@ export function Flags() {
         getNext();
       } else if (event.key === "Enter") {
         handleGuess();
+      } else if (event.key === "F2") {
+        showAnswer();
       }
     };
 
@@ -110,13 +124,16 @@ export function Flags() {
 
   return (
     <FlagSection>
-      <button onClick={getNext}>Next</button>
+      <ButtonWrapper>
+        <button onClick={showAnswer}>Show</button>
+        <button onClick={getNext}>Next</button>
+      </ButtonWrapper>
       <FlagContainer>
         {currentFlag && (
           <Image src={currentFlag.imagePath} alt={currentFlag.country} />
         )}
       </FlagContainer>
-      {!flagGuessed ? (
+      {!flagRevealed ? (
         <>
           <input
             type="text"
