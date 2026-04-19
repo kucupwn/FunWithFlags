@@ -43,7 +43,7 @@ export function Flags() {
 
   const spotr = useSpotr({
     collection: countryData,
-    fields: [{ name: "country", weight: 0.75 }],
+    fields: [{ name: "country" }],
   });
   const stopWords = ["and", "of", "the"];
 
@@ -66,7 +66,7 @@ export function Flags() {
       best.some(
         (r) =>
           r &&
-          r.score >= 0.75 &&
+          r.score >= 0.6 &&
           normalizeName(r.item.country).includes(countryWord),
       ),
     );
