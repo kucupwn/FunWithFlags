@@ -92,6 +92,22 @@ export function Flags() {
     setCurrentFlag(countryData[currentIndex]);
   }, [currentIndex]);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        getNext();
+      } else if (event.key === "Enter") {
+        handleGuess();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [getNext, handleGuess]);
+
   return (
     <FlagSection>
       <button onClick={getNext}>Next</button>
@@ -104,6 +120,7 @@ export function Flags() {
         <>
           <input
             type="text"
+            autoFocus
             value={guess}
             onChange={(e) => setGuess(e.target.value)}
           />
