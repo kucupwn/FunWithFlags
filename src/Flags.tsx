@@ -60,6 +60,14 @@ export function Flags() {
       .filter((word) => !stopWords.includes(word));
   }
 
+  function isLongEnoughMatch(guess: string, target: string) {
+    const g = guess.trim();
+    const t = target.trim();
+    const diff = Math.abs(t.length - g.length);
+
+    return diff <= 3;
+  }
+
   function handleGuess() {
     if (!currentCountry || !guess) return;
 
@@ -73,7 +81,9 @@ export function Flags() {
         (r) =>
           r &&
           r.score >= 0.6 &&
-          normalizeName(r.item.country).includes(countryWord),
+          normalizeName(r.item.country).includes(countryWord) &&
+          (isLongEnoughMatch(guess, countryWord) ||
+            isLongEnoughMatch(guess, r.item.country)),
       ),
     );
 
