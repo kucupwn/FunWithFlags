@@ -42,7 +42,7 @@ const ButtonWrapper = styled.div`
 `;
 
 export function Flags() {
-  const [currentFlag, setCurrentFlag] = useState<Country | null>(null);
+  const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(getRandomIndex());
   const [guess, setGuess] = useState<string>("");
   const [flagRevealed, setFlagRevealed] = useState<boolean>(false);
@@ -61,9 +61,9 @@ export function Flags() {
   }
 
   function handleGuess() {
-    if (!currentFlag || !guess) return;
+    if (!currentCountry || !guess) return;
 
-    const countryWords = normalizeName(currentFlag.country);
+    const countryWords = normalizeName(currentCountry.country);
 
     const res = spotr.query(guess);
     const best = res.results.slice(0, 5);
@@ -79,6 +79,7 @@ export function Flags() {
 
     if (match) {
       setFlagRevealed(true);
+      countryData.splice(currentIndex, 1);
     }
 
     setGuess("");
@@ -91,7 +92,7 @@ export function Flags() {
   function getNext() {
     const newIndex = getRandomIndex();
     setCurrentIndex(newIndex);
-    setCurrentFlag(countryData[currentIndex]);
+    setCurrentCountry(countryData[currentIndex]);
     setGuess("");
     setFlagRevealed(false);
   }
@@ -101,7 +102,7 @@ export function Flags() {
   }
 
   useEffect(() => {
-    setCurrentFlag(countryData[currentIndex]);
+    setCurrentCountry(countryData[currentIndex]);
   }, [currentIndex]);
 
   useEffect(() => {
@@ -129,8 +130,8 @@ export function Flags() {
         <button onClick={getNext}>Next</button>
       </ButtonWrapper>
       <FlagContainer>
-        {currentFlag && (
-          <Image src={currentFlag.imagePath} alt={currentFlag.country} />
+        {currentCountry && (
+          <Image src={currentCountry.imagePath} alt={currentCountry.country} />
         )}
       </FlagContainer>
       {!flagRevealed ? (
@@ -144,7 +145,7 @@ export function Flags() {
           <button onClick={handleGuess}>Guess</button>
         </>
       ) : (
-        <h2>{currentFlag?.country}</h2>
+        <h2>{currentCountry?.country}</h2>
       )}
     </FlagSection>
   );
