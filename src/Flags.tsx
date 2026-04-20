@@ -20,19 +20,19 @@ const FlagSection = styled.div`
 `;
 
 const FlagContainer = styled.div`
-  max-width: 500px;
-  max-height: 400px;
+  width: 500px;
+  height: 400px;
 
   @media (max-width: 768px) {
-    max-width: 300px;
-    max-height: 200px;
+    width: 300px;
+    height: 200px;
   }
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const ButtonWrapper = styled.div`
