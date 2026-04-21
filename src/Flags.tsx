@@ -20,8 +20,8 @@ const FlagSection = styled.div`
 `;
 
 const FlagContainer = styled.div`
-  width: 500px;
-  height: 400px;
+  width: 300px;
+  height: 200px;
 
   @media (max-width: 768px) {
     width: 300px;
