@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import styled from "styled-components";
-import { countries as countryData } from "./countries";
 import { useSpotr } from "spotr/react";
-import type { Country } from "./App";
+import type { Country, Guessed } from "./App";
 
 interface Props {
+  countries: Country[];
   currentCountry: Country | null;
-  currentIndex: number;
+  setGuessed: Dispatch<SetStateAction<Guessed>>;
 }
 
 const FlagSection = styled.div`
@@ -40,12 +40,12 @@ const ButtonWrapper = styled.div`
   width: 300px;
 `;
 
-export function Flags({ currentCountry, currentIndex }: Props) {
+export function Flags({ countries, currentCountry, setGuessed }: Props) {
   const [guess, setGuess] = useState<string>("");
   const [flagRevealed, setFlagRevealed] = useState<boolean>(false);
 
   const spotr = useSpotr({
-    collection: countryData,
+    collection: countries,
     fields: [{ name: "country" }],
   });
   const stopWords = ["and", "of", "the"];
@@ -86,7 +86,10 @@ export function Flags({ currentCountry, currentIndex }: Props) {
 
     if (match) {
       setFlagRevealed(true);
-      countryData.splice(currentIndex, 1);
+      setGuessed((prev) => ({
+        ...prev,
+        flag: true,
+      }));
     }
 
     setGuess("");

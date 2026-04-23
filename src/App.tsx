@@ -10,6 +10,11 @@ export interface Country {
   capital: string;
 }
 
+export interface Guessed {
+  flag: boolean;
+  capital: boolean;
+}
+
 const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,21 +24,26 @@ const GameContainer = styled.div`
 `;
 
 export function App() {
+  const [countries, setCountries] = useState<Country[]>([...countryData]);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
   const [currentIndex, setCurrentIndex] = useState<number>(getRandomIndex());
+  const [guessed, setGuessed] = useState<Guessed>({
+    flag: false,
+    capital: false,
+  });
 
   function getRandomIndex() {
-    return Math.floor(Math.random() * countryData.length);
+    return Math.floor(Math.random() * countries.length);
   }
 
   function getNext() {
     const newIndex = getRandomIndex();
     setCurrentIndex(newIndex);
-    setCurrentCountry(countryData[newIndex]);
+    setCurrentCountry(countries[newIndex]);
   }
 
   useEffect(() => {
-    setCurrentCountry(countryData[currentIndex]);
+    setCurrentCountry(countries[currentIndex]);
   }, [currentIndex]);
 
   useEffect(() => {
@@ -55,8 +65,9 @@ export function App() {
       <button onClick={getNext}>Next</button>
       <Flags
         key={currentCountry?.id}
+        countries={countries}
         currentCountry={currentCountry}
-        currentIndex={currentIndex}
+        setGuessed={setGuessed}
       />
     </GameContainer>
   );
