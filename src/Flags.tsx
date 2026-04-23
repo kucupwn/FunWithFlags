@@ -112,11 +112,6 @@ export function Flags({ currentCountry, currentIndex }: Props) {
     };
   }, [handleGuess]);
 
-  useEffect(() => {
-    setGuess("");
-    setFlagRevealed(false);
-  }, [currentCountry]);
-
   return (
     <FlagSection>
       <ButtonWrapper>

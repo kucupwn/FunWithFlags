@@ -29,7 +29,7 @@ export function App() {
   function getNext() {
     const newIndex = getRandomIndex();
     setCurrentIndex(newIndex);
-    setCurrentCountry(countryData[currentIndex]);
+    setCurrentCountry(countryData[newIndex]);
   }
 
   useEffect(() => {
@@ -53,7 +53,11 @@ export function App() {
   return (
     <GameContainer>
       <button onClick={getNext}>Next</button>
-      <Flags currentCountry={currentCountry} currentIndex={currentIndex} />
+      <Flags
+        key={currentCountry?.id}
+        currentCountry={currentCountry}
+        currentIndex={currentIndex}
+      />
     </GameContainer>
   );
 }
