@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Flags } from "./Flags";
 import { countries as countryData } from "./countries";
+import styled from "styled-components";
 
 export interface Country {
   id: number;
@@ -8,6 +9,14 @@ export interface Country {
   imagePath: string;
   capital: string;
 }
+
+const GameContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
 
 export function App() {
   const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
@@ -42,9 +51,9 @@ export function App() {
   }, [getNext]);
 
   return (
-    <>
+    <GameContainer>
       <button onClick={getNext}>Next</button>
       <Flags currentCountry={currentCountry} currentIndex={currentIndex} />
-    </>
+    </GameContainer>
   );
 }
