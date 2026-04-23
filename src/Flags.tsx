@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { countries as countryData } from "./countries";
 import { useSpotr } from "spotr/react";
+import type { Country } from "./App";
 
-interface Country {
-  id: number;
-  country: string;
-  imagePath: string;
-  capital: string;
+interface Props {
+  currentCountry: Country | null;
+  currentIndex: number;
 }
 
 const FlagSection = styled.div`
@@ -41,9 +40,7 @@ const ButtonWrapper = styled.div`
   width: 300px;
 `;
 
-export function Flags() {
-  const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
-  const [currentIndex, setCurrentIndex] = useState<number>(getRandomIndex());
+export function Flags({ currentCountry, currentIndex }: Props) {
   const [guess, setGuess] = useState<string>("");
   const [flagRevealed, setFlagRevealed] = useState<boolean>(false);
 
@@ -95,31 +92,13 @@ export function Flags() {
     setGuess("");
   }
 
-  function getRandomIndex() {
-    return Math.floor(Math.random() * countryData.length);
-  }
-
-  function getNext() {
-    const newIndex = getRandomIndex();
-    setCurrentIndex(newIndex);
-    setCurrentCountry(countryData[currentIndex]);
-    setGuess("");
-    setFlagRevealed(false);
-  }
-
   function showAnswer() {
     setFlagRevealed(true);
   }
 
   useEffect(() => {
-    setCurrentCountry(countryData[currentIndex]);
-  }, [currentIndex]);
-
-  useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") {
-        getNext();
-      } else if (event.key === "Enter") {
+      if (event.key === "Enter") {
         handleGuess();
       } else if (event.key === "F2") {
         showAnswer();
@@ -131,13 +110,17 @@ export function Flags() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [getNext, handleGuess]);
+  }, [handleGuess]);
+
+  useEffect(() => {
+    setGuess("");
+    setFlagRevealed(false);
+  }, [currentCountry]);
 
   return (
     <FlagSection>
       <ButtonWrapper>
         <button onClick={showAnswer}>Show</button>
-        <button onClick={getNext}>Next</button>
       </ButtonWrapper>
       <FlagContainer>
         {currentCountry && (
