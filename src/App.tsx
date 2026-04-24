@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Flags } from "./Flags";
 import { countries as countryData } from "./countries";
 import styled from "styled-components";
+import { Capitals } from "./Capitals";
 
 export interface Country {
   id: number;
@@ -69,6 +70,13 @@ export function App() {
         currentCountry={currentCountry}
         setGuessed={setGuessed}
       />
+      {guessed.flag && (
+        <Capitals
+          countries={countries}
+          currentCountry={currentCountry}
+          setGuessed={setGuessed}
+        />
+      )}
     </GameContainer>
   );
 }
