@@ -48,12 +48,14 @@ export function Capitals({
 
   return (
     <>
-      {guessed.flag && (
+      {guessed.flag && currentCountry?.capital !== "" ? (
         <ButtonWrapper>
           {answers.map((ans) => (
             <button key={ans}>{ans}</button>
           ))}
         </ButtonWrapper>
+      ) : (
+        <p>{currentCountry?.country} has no official capital.</p>
       )}
     </>
   );
