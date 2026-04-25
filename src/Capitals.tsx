@@ -5,6 +5,15 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 const ButtonWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+`;
+
+const AnswerButton = styled.button`
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 interface Props {
@@ -51,11 +60,11 @@ export function Capitals({
       {guessed.flag && currentCountry?.capital !== "" ? (
         <ButtonWrapper>
           {answers.map((ans) => (
-            <button key={ans}>{ans}</button>
+            <AnswerButton key={ans}>{ans}</AnswerButton>
           ))}
         </ButtonWrapper>
       ) : (
-        <p>{currentCountry?.country} has no official capital.</p>
+        <p>{currentCountry?.country} missing capital data.</p>
       )}
     </>
   );
