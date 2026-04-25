@@ -10,24 +10,51 @@ const ButtonWrapper = styled.div`
 interface Props {
   countries: Country[];
   currentCountry: Country | null;
+  guessed: Guessed;
   setGuessed: Dispatch<SetStateAction<Guessed>>;
 }
 
-export function Capitals({ countries, currentCountry, setGuessed }: Props) {
+export function Capitals({
+  countries,
+  currentCountry,
+  guessed,
+  setGuessed,
+}: Props) {
   const [answers, setAnswers] = useState<string[]>([]);
 
-  function getWrongAnswers() {}
-
   useEffect(() => {
-    setAnswers((prev) => [...prev, currentCountry!.capital]);
-  }, []);
+    if (!currentCountry) return;
+
+    const wrongAnswers: string[] = [];
+
+    while (wrongAnswers.length < 3) {
+      const random = countries[Math.floor(Math.random() * countries.length)];
+
+      if (
+        random.capital !== "" &&
+        random.capital !== currentCountry.capital &&
+        !wrongAnswers.includes(random.capital)
+      ) {
+        wrongAnswers.push(random.capital);
+      }
+    }
+
+    const shuffled = [currentCountry.capital, ...wrongAnswers].sort(
+      () => Math.random() - 0.5,
+    );
+
+    setAnswers(shuffled);
+  }, [currentCountry]);
 
   return (
-    <ButtonWrapper>
-      <button>answer</button>
-      <button>answer</button>
-      <button>answer</button>
-      <button>answer</button>
-    </ButtonWrapper>
+    <>
+      {guessed.flag && (
+        <ButtonWrapper>
+          {answers.map((ans) => (
+            <button key={ans}>{ans}</button>
+          ))}
+        </ButtonWrapper>
+      )}
+    </>
   );
 }

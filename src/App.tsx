@@ -41,6 +41,10 @@ export function App() {
     const newIndex = getRandomIndex();
     setCurrentIndex(newIndex);
     setCurrentCountry(countries[newIndex]);
+    setGuessed({
+      flag: false,
+      capital: false,
+    });
   }
 
   useEffect(() => {
@@ -74,6 +78,7 @@ export function App() {
         <Capitals
           countries={countries}
           currentCountry={currentCountry}
+          guessed={guessed}
           setGuessed={setGuessed}
         />
       )}
