@@ -48,6 +48,13 @@ export function Capitals({
   useEffect(() => {
     if (!currentCountry) return;
 
+    if (!currentCountry.capital) {
+      setGuessed((prev) => ({
+        ...prev,
+        capital: true,
+      }));
+    }
+
     const wrongAnswers: string[] = [];
 
     while (wrongAnswers.length < 3) {
