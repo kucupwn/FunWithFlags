@@ -30,6 +30,20 @@ export function Capitals({
   setGuessed,
 }: Props) {
   const [answers, setAnswers] = useState<string[]>([]);
+  const [capitalRevealed, setCapitalRevealed] = useState<boolean>(false);
+  const [guess, setGuess] = useState<string>("");
+
+  function checkAnswer(answer: string) {
+    setCapitalRevealed(true);
+    setGuess(answer);
+
+    if (answer === currentCountry?.capital) {
+      setGuessed((prev) => ({
+        ...prev,
+        capital: true,
+      }));
+    }
+  }
 
   useEffect(() => {
     if (!currentCountry) return;
@@ -57,15 +71,25 @@ export function Capitals({
 
   return (
     <>
-      {guessed.flag && currentCountry?.capital !== "" ? (
+      {guessed.flag && !capitalRevealed && currentCountry?.capital !== "" && (
         <ButtonWrapper>
           {answers.map((ans) => (
-            <AnswerButton key={ans}>{ans}</AnswerButton>
+            <AnswerButton key={ans} onClick={() => checkAnswer(ans)}>
+              {ans}
+            </AnswerButton>
           ))}
         </ButtonWrapper>
-      ) : (
-        <p>{currentCountry?.country} missing capital data.</p>
       )}
+      {guess &&
+        (capitalRevealed && currentCountry?.capital === guess ? (
+          <p>
+            {currentCountry?.country}'s capital is {currentCountry?.capital}
+          </p>
+        ) : (
+          <p>
+            {currentCountry?.country}'s capital is NOT {guess}
+          </p>
+        ))}
     </>
   );
 }
