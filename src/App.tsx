@@ -26,21 +26,20 @@ const GameContainer = styled.div`
 
 export function App() {
   const [countries, setCountries] = useState<Country[]>([...countryData]);
-  const [currentCountry, setCurrentCountry] = useState<Country | null>(null);
-  const [currentIndex, setCurrentIndex] = useState<number>(getRandomIndex());
+  const [currentCountry, setCurrentCountry] = useState<Country>(
+    countries[Math.floor(Math.random() * countries.length)],
+  );
   const [guessed, setGuessed] = useState<Guessed>({
     flag: false,
     capital: false,
   });
 
-  function getRandomIndex() {
-    return Math.floor(Math.random() * countries.length);
-  }
-
   function getNext() {
-    const newIndex = getRandomIndex();
-    setCurrentIndex(newIndex);
-    setCurrentCountry(countries[newIndex]);
+    if (countries.length === 0) return;
+
+    const random = countries[Math.floor(Math.random() * countries.length)];
+    setCurrentCountry(random);
+
     setGuessed({
       flag: false,
       capital: false,
@@ -60,10 +59,6 @@ export function App() {
       removeCountry();
     }
   }, [guessed]);
-
-  useEffect(() => {
-    setCurrentCountry(countries[currentIndex]);
-  }, [currentIndex]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -90,7 +85,6 @@ export function App() {
       />
       {guessed.flag && (
         <Capitals
-          countries={countries}
           currentCountry={currentCountry}
           guessed={guessed}
           setGuessed={setGuessed}
