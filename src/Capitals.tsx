@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import type { Country, Guessed } from "./App";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import { countries as countryData } from "./countries";
 
 const ButtonWrapper = styled.div`
   display: grid;
@@ -17,18 +18,12 @@ const AnswerButton = styled.button`
 `;
 
 interface Props {
-  countries: Country[];
   currentCountry: Country | null;
   guessed: Guessed;
   setGuessed: Dispatch<SetStateAction<Guessed>>;
 }
 
-export function Capitals({
-  countries,
-  currentCountry,
-  guessed,
-  setGuessed,
-}: Props) {
+export function Capitals({ currentCountry, guessed, setGuessed }: Props) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [capitalRevealed, setCapitalRevealed] = useState<boolean>(false);
   const [guess, setGuess] = useState<string>("");
@@ -58,7 +53,8 @@ export function Capitals({
     const wrongAnswers: string[] = [];
 
     while (wrongAnswers.length < 3) {
-      const random = countries[Math.floor(Math.random() * countries.length)];
+      const random =
+        countryData[Math.floor(Math.random() * countryData.length)];
 
       if (
         random.capital !== "" &&
