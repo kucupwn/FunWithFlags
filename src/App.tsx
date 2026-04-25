@@ -47,6 +47,20 @@ export function App() {
     });
   }
 
+  function removeCountry() {
+    if (!currentCountry) return;
+
+    if (guessed.flag && guessed.capital) {
+      setCountries((prev) => prev.filter((c) => c.id !== currentCountry.id));
+    }
+  }
+
+  useEffect(() => {
+    if (guessed.flag && guessed.capital) {
+      removeCountry();
+    }
+  }, [guessed]);
+
   useEffect(() => {
     setCurrentCountry(countries[currentIndex]);
   }, [currentIndex]);
