@@ -121,11 +121,13 @@ export function Flags({ countries, currentCountry, setGuessed }: Props) {
         <button onClick={showAnswer}>Show</button>
       </ButtonWrapper>
       <FlagContainer>
-        {currentCountry && (
+        {currentCountry ? (
           <Image src={currentCountry.imagePath} alt={currentCountry.country} />
+        ) : (
+          <Image src="/Congrat.PNG" alt="gg" />
         )}
       </FlagContainer>
-      {!flagRevealed ? (
+      {!flagRevealed && currentCountry !== null ? (
         <>
           <input
             type="text"

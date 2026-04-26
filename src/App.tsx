@@ -39,16 +39,20 @@ const TopWrapper = styled.div`
 
 export function App() {
   const [countries, setCountries] = useState<Country[]>([...countryData]);
-  const [currentCountry, setCurrentCountry] = useState<Country>(
+  const [currentCountry, setCurrentCountry] = useState<Country | null>(
     countries[Math.floor(Math.random() * countries.length)],
   );
   const [guessed, setGuessed] = useState<Guessed>({
     flag: false,
     capital: false,
   });
+  const [round, setRound] = useState(0);
 
   function getNext() {
-    if (countries.length === 0) return;
+    if (countries.length === 0) {
+      setCurrentCountry(null);
+      return;
+    }
 
     const random = countries[Math.floor(Math.random() * countries.length)];
     setCurrentCountry(random);
@@ -57,6 +61,8 @@ export function App() {
       flag: false,
       capital: false,
     });
+
+    setRound((r) => r + 1);
   }
 
   function removeCountry() {
@@ -94,12 +100,12 @@ export function App() {
         <NextButton onClick={getNext}>Next</NextButton>
       </TopWrapper>
       <Flags
-        key={currentCountry?.id}
+        key={`${currentCountry?.id}-${round}`}
         countries={countries}
         currentCountry={currentCountry}
         setGuessed={setGuessed}
       />
-      {guessed.flag && (
+      {guessed.flag && currentCountry !== null && (
         <Capitals
           currentCountry={currentCountry}
           guessed={guessed}
