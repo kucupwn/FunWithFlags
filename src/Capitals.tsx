@@ -14,6 +14,7 @@ const AnswerButton = styled.button`
   height: 50px;
   font-size: 16px;
   border-radius: 10px;
+  background-color: rgb(255, 218, 173);
   cursor: pointer;
 `;
 
