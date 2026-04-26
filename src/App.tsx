@@ -3,6 +3,7 @@ import { Flags } from "./Flags";
 import { countries as countryData } from "./countries";
 import styled from "styled-components";
 import { Capitals } from "./Capitals";
+import { Counter } from "./Counter";
 
 export interface Country {
   id: number;
@@ -27,6 +28,13 @@ const GameContainer = styled.div`
 const NextButton = styled.button`
   width: 80px;
   font-size: 20px;
+`;
+
+const TopWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 500px;
 `;
 
 export function App() {
@@ -81,7 +89,10 @@ export function App() {
 
   return (
     <GameContainer>
-      <NextButton onClick={getNext}>Next</NextButton>
+      <TopWrapper>
+        <Counter countries={countries} />
+        <NextButton onClick={getNext}>Next</NextButton>
+      </TopWrapper>
       <Flags
         key={currentCountry?.id}
         countries={countries}
