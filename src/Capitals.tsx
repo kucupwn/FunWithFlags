@@ -10,9 +10,9 @@ const ButtonWrapper = styled.div`
 `;
 
 const AnswerButton = styled.button`
-  width: 150px;
+  width: 200px;
   height: 50px;
-  font-size: 16px;
+  font-size: 18px;
   border-radius: 10px;
   background-color: rgb(255, 218, 173);
   cursor: pointer;
@@ -72,6 +72,26 @@ export function Capitals({ currentCountry, guessed, setGuessed }: Props) {
 
     setAnswers(shuffled);
   }, [currentCountry]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "1") {
+        checkAnswer(answers[0]);
+      } else if (event.key === "2") {
+        checkAnswer(answers[1]);
+      } else if (event.key === "3") {
+        checkAnswer(answers[2]);
+      } else if (event.key === "4") {
+        checkAnswer(answers[3]);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [checkAnswer]);
 
   return (
     <>
