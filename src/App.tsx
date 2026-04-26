@@ -24,6 +24,11 @@ const GameContainer = styled.div`
   gap: 1rem;
 `;
 
+const NextButton = styled.button`
+  width: 80px;
+  font-size: 20px;
+`;
+
 export function App() {
   const [countries, setCountries] = useState<Country[]>([...countryData]);
   const [currentCountry, setCurrentCountry] = useState<Country>(
@@ -76,7 +81,7 @@ export function App() {
 
   return (
     <GameContainer>
-      <button onClick={getNext}>Next</button>
+      <NextButton onClick={getNext}>Next</NextButton>
       <Flags
         key={currentCountry?.id}
         countries={countries}
