@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Flags } from "./Flags";
-import { countries as countryData } from "./countries";
+import { Flags } from "./components/Flags";
+import { countries as countryData } from "./data/countries";
 import styled from "styled-components";
-import { Capitals } from "./Capitals";
+import { Capitals } from "./components/Capitals";
 import { Counter } from "./Counter";
 
 export interface Country {

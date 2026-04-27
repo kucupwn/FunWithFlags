@@ -30,6 +30,6 @@ for c in os.listdir("public/flags"):
     country_id += 1
 
 
-with open("utils/countries.txt", "w", encoding="utf-8") as f:
+with open("src/data/countries.txt", "w", encoding="utf-8") as f:
     for country in countries:
         f.write(str(country) + ",\n")

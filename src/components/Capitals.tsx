@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import type { Country, Guessed } from "./App";
+import type { Country, Guessed } from "../App";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { countries as countryData } from "./countries";
+import { countries as countryData } from "../data/countries";
 
 const ButtonWrapper = styled.div`
   display: grid;
