@@ -3,7 +3,7 @@ import { Flags } from "./components/Flags";
 import { countries as countryData } from "./data/countries";
 import styled from "styled-components";
 import { Capitals } from "./components/Capitals";
-import { Counter } from "./Counter";
+import { Counter } from "./components/Counter";
 
 export interface Country {
   id: number;
