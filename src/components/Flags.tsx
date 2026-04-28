@@ -1,7 +1,7 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import styled from "styled-components";
 import { useSpotr } from "spotr/react";
-import type { Country, Guessed } from "../App";
+import type { Country, Guessed } from "../Game";
 
 interface Props {
   countries: Country[];
