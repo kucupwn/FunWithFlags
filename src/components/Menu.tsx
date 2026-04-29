@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 const MenuContainer = styled.div`
@@ -8,21 +7,16 @@ const MenuContainer = styled.div`
   align-items: center;
 `;
 
-export interface GameMode {
-  flag: boolean;
-  capital: boolean;
+interface Props {
+  onStartGame: () => void;
 }
 
-export function Menu() {
-  const [gameMode, setGameMode] = useState<GameMode>({
-    flag: true,
-    capital: true,
-  });
-
+export function Menu({ onStartGame }: Props) {
   return (
     <MenuContainer>
       <h1>Title</h1>
       <p>Select game mode</p>
+      <button onClick={onStartGame}>Start</button>
     </MenuContainer>
   );
 }
