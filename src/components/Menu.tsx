@@ -5,6 +5,18 @@ const MenuContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
+`;
+
+const SettingRow = styled.div`
+  display: flex;
+  width: 300px;
+  justify-content: space-between;
+`;
+
+const RadioWrapper = styled.div`
+  display: flex;
+  gap: 2rem;
 `;
 
 interface Props {
@@ -16,6 +28,20 @@ export function Menu({ onStartGame }: Props) {
     <MenuContainer>
       <h1>Title</h1>
       <p>Select game mode</p>
+      <SettingRow>
+        <span>Flag</span>
+        <RadioWrapper>
+          <input type="radio" />
+          <input type="radio" />
+        </RadioWrapper>
+      </SettingRow>
+      <SettingRow>
+        <span>Capital</span>
+        <RadioWrapper>
+          <input type="radio" />
+          <input type="radio" />
+        </RadioWrapper>
+      </SettingRow>
       <button onClick={onStartGame}>Start</button>
     </MenuContainer>
   );
