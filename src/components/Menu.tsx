@@ -31,15 +31,15 @@ export function Menu({ onStartGame }: Props) {
       <SettingRow>
         <span>Flag</span>
         <RadioWrapper>
-          <input type="radio" />
-          <input type="radio" />
+          <input type="radio" name="flag" />
+          <input type="radio" name="flag" />
         </RadioWrapper>
       </SettingRow>
       <SettingRow>
         <span>Capital</span>
         <RadioWrapper>
-          <input type="radio" />
-          <input type="radio" />
+          <input type="radio" name="capital" />
+          <input type="radio" name="capital" />
         </RadioWrapper>
       </SettingRow>
       <button onClick={onStartGame}>Start</button>
