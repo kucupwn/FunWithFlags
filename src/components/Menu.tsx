@@ -31,8 +31,8 @@ interface Props {
 export function Menu({ onStartGame }: Props) {
   return (
     <MenuContainer>
-      <h1>Title</h1>
-      <p>Select game mode</p>
+      <h1>Fun with Flags</h1>
+      <h2>Select game mode</h2>
       <SettingRow>
         <SettingsHeader>Property</SettingsHeader>
         <RadioWrapper>
