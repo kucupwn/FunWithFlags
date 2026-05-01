@@ -19,6 +19,11 @@ const RadioWrapper = styled.div`
   gap: 2rem;
 `;
 
+const SettingsHeader = styled.p`
+  font-weight: bold;
+  font-size: 18px;
+`;
+
 interface Props {
   onStartGame: () => void;
 }
@@ -28,6 +33,13 @@ export function Menu({ onStartGame }: Props) {
     <MenuContainer>
       <h1>Title</h1>
       <p>Select game mode</p>
+      <SettingRow>
+        <SettingsHeader>Property</SettingsHeader>
+        <RadioWrapper>
+          <SettingsHeader>Yes</SettingsHeader>
+          <SettingsHeader>No</SettingsHeader>
+        </RadioWrapper>
+      </SettingRow>
       <SettingRow>
         <span>Flag</span>
         <RadioWrapper>
