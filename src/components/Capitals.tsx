@@ -113,8 +113,8 @@ export function Capitals({
           ))}
         </ButtonWrapper>
       )}
-      {guess &&
-        (capitalRevealed && currentCountry?.capital === guess ? (
+      {capitalRevealed &&
+        (guess && currentCountry?.capital === guess ? (
           <p>
             {currentCountry?.country}'s capital is {currentCountry?.capital}
           </p>
