@@ -20,8 +20,10 @@ export function App() {
 
   return (
     <>
-      {!gameStarted && <Menu onStartGame={startGame} />}
-      {gameStarted && <Game />}
+      {!gameStarted && (
+        <Menu setGameMode={setGameMode} onStartGame={startGame} />
+      )}
+      {gameStarted && <Game gameMode={gameMode} />}
     </>
   );
 }

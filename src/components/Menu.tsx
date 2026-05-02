@@ -1,5 +1,11 @@
-import { useState } from "react";
+import {
+  useState,
+  type ChangeEvent,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import styled from "styled-components";
+import type { GameMode } from "../App";
 
 const MenuContainer = styled.div`
   display: flex;
@@ -26,14 +32,35 @@ const SettingsHeader = styled.p`
 `;
 
 interface Props {
+  setGameMode: Dispatch<SetStateAction<GameMode>>;
   onStartGame: () => void;
 }
 
 type ModeSwitch = "on" | "off";
 
-export function Menu({ onStartGame }: Props) {
+export function Menu({ setGameMode, onStartGame }: Props) {
   const [flagMode, setFlagMode] = useState<ModeSwitch>("on");
   const [capitalMode, setCapitalMode] = useState<ModeSwitch>("on");
+
+  function handleSwitch(e: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+
+    if (name === "flag") {
+      setFlagMode(value as ModeSwitch);
+      setGameMode((prev) => ({
+        ...prev,
+        flag: value === "on",
+      }));
+    }
+
+    if (name === "capital") {
+      setCapitalMode(value as ModeSwitch);
+      setGameMode((prev) => ({
+        ...prev,
+        capital: value === "on",
+      }));
+    }
+  }
 
   return (
     <MenuContainer>
@@ -54,14 +81,14 @@ export function Menu({ onStartGame }: Props) {
             name="flag"
             value="on"
             checked={flagMode === "on"}
-            onChange={(e) => setFlagMode(e.target.value as ModeSwitch)}
+            onChange={(e) => handleSwitch(e)}
           />
           <input
             type="radio"
             name="flag"
             value="off"
             checked={flagMode === "off"}
-            onChange={(e) => setFlagMode(e.target.value as ModeSwitch)}
+            onChange={(e) => handleSwitch(e)}
           />
         </RadioWrapper>
       </SettingRow>
@@ -73,14 +100,14 @@ export function Menu({ onStartGame }: Props) {
             name="capital"
             value="on"
             checked={capitalMode === "on"}
-            onChange={(e) => setCapitalMode(e.target.value as ModeSwitch)}
+            onChange={(e) => handleSwitch(e)}
           />
           <input
             type="radio"
             name="capital"
             value="off"
             checked={capitalMode === "off"}
-            onChange={(e) => setCapitalMode(e.target.value as ModeSwitch)}
+            onChange={(e) => handleSwitch(e)}
           />
         </RadioWrapper>
       </SettingRow>

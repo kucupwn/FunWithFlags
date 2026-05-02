@@ -2,6 +2,7 @@ import styled from "styled-components";
 import type { Country, Guessed } from "../Game";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { countries as countryData } from "../data/countries";
+import type { GameMode } from "../App";
 
 const ButtonWrapper = styled.div`
   display: grid;
@@ -22,11 +23,19 @@ interface Props {
   currentCountry: Country | null;
   guessed: Guessed;
   setGuessed: Dispatch<SetStateAction<Guessed>>;
+  gameMode: GameMode;
 }
 
-export function Capitals({ currentCountry, guessed, setGuessed }: Props) {
+export function Capitals({
+  currentCountry,
+  guessed,
+  setGuessed,
+  gameMode,
+}: Props) {
   const [answers, setAnswers] = useState<string[]>([]);
-  const [capitalRevealed, setCapitalRevealed] = useState<boolean>(false);
+  const [capitalRevealed, setCapitalRevealed] = useState<boolean>(
+    !gameMode.capital ? true : false,
+  );
   const [guess, setGuess] = useState<string>("");
 
   function checkAnswer(answer: string) {

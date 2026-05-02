@@ -4,6 +4,7 @@ import { countries as countryData } from "./data/countries";
 import styled from "styled-components";
 import { Capitals } from "./components/Capitals";
 import { Counter } from "./components/Counter";
+import type { GameMode } from "./App";
 
 export interface Country {
   id: number;
@@ -37,14 +38,18 @@ const TopWrapper = styled.div`
   min-width: 500px;
 `;
 
-export function Game() {
+interface Props {
+  gameMode: GameMode;
+}
+
+export function Game({ gameMode }: Props) {
   const [countries, setCountries] = useState<Country[]>([...countryData]);
   const [currentCountry, setCurrentCountry] = useState<Country | null>(
     countries[Math.floor(Math.random() * countries.length)],
   );
   const [guessed, setGuessed] = useState<Guessed>({
-    flag: false,
-    capital: false,
+    flag: !gameMode.flag,
+    capital: !gameMode.capital,
   });
   const [round, setRound] = useState(0);
 
@@ -58,8 +63,8 @@ export function Game() {
     setCurrentCountry(random);
 
     setGuessed({
-      flag: false,
-      capital: false,
+      flag: !gameMode.flag,
+      capital: !gameMode.capital,
     });
 
     setRound((r) => r + 1);
@@ -104,12 +109,15 @@ export function Game() {
         countries={countries}
         currentCountry={currentCountry}
         setGuessed={setGuessed}
+        gameMode={gameMode}
       />
       {guessed.flag && currentCountry !== null && (
         <Capitals
+          key={`${currentCountry.capital}-${round}`}
           currentCountry={currentCountry}
           guessed={guessed}
           setGuessed={setGuessed}
+          gameMode={gameMode}
         />
       )}
     </GameContainer>

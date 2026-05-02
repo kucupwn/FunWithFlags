@@ -2,12 +2,7 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import styled from "styled-components";
 import { useSpotr } from "spotr/react";
 import type { Country, Guessed } from "../Game";
-
-interface Props {
-  countries: Country[];
-  currentCountry: Country | null;
-  setGuessed: Dispatch<SetStateAction<Guessed>>;
-}
+import type { GameMode } from "../App";
 
 const FlagSection = styled.div`
   display: flex;
@@ -40,9 +35,23 @@ const ButtonWrapper = styled.div`
   width: 300px;
 `;
 
-export function Flags({ countries, currentCountry, setGuessed }: Props) {
+interface Props {
+  countries: Country[];
+  currentCountry: Country | null;
+  setGuessed: Dispatch<SetStateAction<Guessed>>;
+  gameMode: GameMode;
+}
+
+export function Flags({
+  countries,
+  currentCountry,
+  setGuessed,
+  gameMode,
+}: Props) {
   const [guess, setGuess] = useState<string>("");
-  const [flagRevealed, setFlagRevealed] = useState<boolean>(false);
+  const [flagRevealed, setFlagRevealed] = useState<boolean>(
+    !gameMode.flag ? true : false,
+  );
 
   const spotr = useSpotr({
     collection: countries,
