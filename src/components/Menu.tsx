@@ -31,6 +31,10 @@ const SettingsHeader = styled.p`
   font-size: 18px;
 `;
 
+const StartButton = styled.button`
+  font-size: 20px;
+`;
+
 interface Props {
   setGameMode: Dispatch<SetStateAction<GameMode>>;
   onStartGame: () => void;
@@ -111,7 +115,7 @@ export function Menu({ setGameMode, onStartGame }: Props) {
           />
         </RadioWrapper>
       </SettingRow>
-      <button onClick={onStartGame}>Start</button>
+      <StartButton onClick={onStartGame}>Start</StartButton>
     </MenuContainer>
   );
 }
