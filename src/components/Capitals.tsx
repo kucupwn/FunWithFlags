@@ -106,9 +106,9 @@ export function Capitals({
     <>
       {guessed.flag && !capitalRevealed && currentCountry?.capital !== "" && (
         <ButtonWrapper>
-          {answers.map((ans) => (
+          {answers.map((ans, i) => (
             <AnswerButton key={ans} onClick={() => checkAnswer(ans)}>
-              {ans}
+              {`${i + 1}. ${ans}`}
             </AnswerButton>
           ))}
         </ButtonWrapper>
