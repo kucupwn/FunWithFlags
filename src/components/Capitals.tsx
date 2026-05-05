@@ -11,9 +11,9 @@ const ButtonWrapper = styled.div`
 `;
 
 const AnswerButton = styled.button`
-  width: 220px;
+  width: 180px;
   height: 50px;
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 10px;
   background-color: rgb(255, 218, 173);
   cursor: pointer;
