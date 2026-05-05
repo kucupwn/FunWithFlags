@@ -10,13 +10,22 @@ const ButtonWrapper = styled.div`
   gap: 1rem;
 `;
 
-const AnswerButton = styled.button`
+const AnswerButton = styled.button<{
+  $revealed: boolean;
+  $selected: boolean;
+  $correct: boolean;
+}>`
   width: 180px;
   height: 50px;
   font-size: 16px;
   border-radius: 10px;
-  background-color: rgb(255, 218, 173);
   cursor: pointer;
+  background-color: ${({ $revealed, $selected, $correct }) => {
+    if (!$revealed) return "rgb(255, 218, 173)";
+    if ($selected) return $correct ? "rgb(139, 189, 22)" : "rgb(237, 40, 40)";
+    if ($correct) return "rgb(139, 189, 22)";
+    return "rgb(255, 218, 173)";
+  }};
 `;
 
 interface Props {
@@ -36,11 +45,13 @@ export function Capitals({
   const [capitalRevealed, setCapitalRevealed] = useState<boolean>(
     !gameMode.capital ? true : false,
   );
-  const [guess, setGuess] = useState<string>("");
+  // const [guess, setGuess] = useState<string>("");
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
   function checkAnswer(answer: string) {
     setCapitalRevealed(true);
-    setGuess(answer);
+    setSelectedAnswer(answer);
+    // setGuess(answer);
 
     if (answer === currentCountry?.capital) {
       setGuessed((prev) => ({
@@ -104,16 +115,25 @@ export function Capitals({
 
   return (
     <>
-      {guessed.flag && !capitalRevealed && currentCountry?.capital !== "" && (
+      {/* Add ' && !capitalRevealed ', if there are more country properties! */}
+      {guessed.flag && currentCountry?.capital !== "" && (
         <ButtonWrapper>
           {answers.map((ans, i) => (
-            <AnswerButton key={ans} onClick={() => checkAnswer(ans)}>
+            <AnswerButton
+              key={ans}
+              onClick={() => checkAnswer(ans)}
+              $revealed={capitalRevealed}
+              $selected={ans === selectedAnswer}
+              $correct={ans === currentCountry?.capital}
+            >
               {`${i + 1}. ${ans}`}
             </AnswerButton>
           ))}
         </ButtonWrapper>
       )}
-      {capitalRevealed &&
+
+      {/* This, and state 'guess' will only need, when there will be more country properties! */}
+      {/* {capitalRevealed &&
         currentCountry?.capital &&
         ((guess && currentCountry?.capital === guess) || guess === "" ? (
           <p>
@@ -123,7 +143,7 @@ export function Capitals({
           <p>
             {currentCountry?.country}'s capital is NOT {guess}
           </p>
-        ))}
+        ))} */}
     </>
   );
 }
