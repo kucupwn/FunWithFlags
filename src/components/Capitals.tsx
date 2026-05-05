@@ -26,6 +26,9 @@ const AnswerButton = styled.button<{
     if ($correct) return "rgb(139, 189, 22)";
     return "rgb(255, 218, 173)";
   }};
+  border: ${({ $selected }) => {
+    return $selected ? "solid 3px rgb(255, 150, 21)" : "solid 1px black";
+  }};
 `;
 
 interface Props {
