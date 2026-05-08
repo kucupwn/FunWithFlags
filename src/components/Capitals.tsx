@@ -48,13 +48,11 @@ export function Capitals({
   const [capitalRevealed, setCapitalRevealed] = useState<boolean>(
     !gameMode.capital ? true : false,
   );
-  // const [guess, setGuess] = useState<string>("");
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
   function checkAnswer(answer: string) {
     setCapitalRevealed(true);
     setSelectedAnswer(answer);
-    // setGuess(answer);
 
     if (answer === currentCountry?.capital) {
       setGuessed((prev) => ({
@@ -118,7 +116,6 @@ export function Capitals({
 
   return (
     <>
-      {/* Add ' && !capitalRevealed ', if there are more country properties! */}
       {guessed.flag && currentCountry?.capital !== "" && (
         <ButtonWrapper>
           {answers.map((ans, i) => (
@@ -135,18 +132,18 @@ export function Capitals({
         </ButtonWrapper>
       )}
 
-      {/* This, and state 'guess' will only need, when there will be more country properties! */}
-      {/* {capitalRevealed &&
+      {capitalRevealed &&
         currentCountry?.capital &&
-        ((guess && currentCountry?.capital === guess) || guess === "" ? (
+        ((selectedAnswer && currentCountry?.capital === selectedAnswer) ||
+        selectedAnswer === "" ? (
           <p>
             {currentCountry?.country}'s capital is {currentCountry?.capital}
           </p>
         ) : (
           <p>
-            {currentCountry?.country}'s capital is NOT {guess}
+            {currentCountry?.country}'s capital is NOT {selectedAnswer}
           </p>
-        ))} */}
+        ))}
     </>
   );
 }
