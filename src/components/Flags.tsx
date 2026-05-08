@@ -38,6 +38,7 @@ const ButtonWrapper = styled.div`
 interface Props {
   countries: Country[];
   currentCountry: Country | null;
+  guessed: Guessed;
   setGuessed: Dispatch<SetStateAction<Guessed>>;
   gameMode: GameMode;
 }
@@ -45,6 +46,7 @@ interface Props {
 export function Flags({
   countries,
   currentCountry,
+  guessed,
   setGuessed,
   gameMode,
 }: Props) {
@@ -126,9 +128,6 @@ export function Flags({
 
   return (
     <FlagSection>
-      <ButtonWrapper>
-        <button onClick={showAnswer}>Show</button>
-      </ButtonWrapper>
       <FlagContainer>
         {currentCountry ? (
           <Image src={currentCountry.imagePath} alt={currentCountry.country} />
@@ -136,6 +135,11 @@ export function Flags({
           <Image src="/Congrat.PNG" alt="gg" />
         )}
       </FlagContainer>
+      {!guessed.flag && (
+        <ButtonWrapper>
+          <button onClick={showAnswer}>Show</button>
+        </ButtonWrapper>
+      )}
       {!flagRevealed && currentCountry !== null ? (
         <>
           <input

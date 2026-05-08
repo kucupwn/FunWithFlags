@@ -113,6 +113,7 @@ export function Game({ gameMode }: Props) {
         key={`${currentCountry?.id}-${round}`}
         countries={countries}
         currentCountry={currentCountry}
+        guessed={guessed}
         setGuessed={setGuessed}
         gameMode={gameMode}
       />
