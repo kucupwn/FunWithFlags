@@ -17,7 +17,7 @@ const AnswerButton = styled.button<{
 }>`
   width: 180px;
   height: 50px;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 10px;
   cursor: pointer;
   background-color: ${({ $revealed, $selected, $correct }) => {
