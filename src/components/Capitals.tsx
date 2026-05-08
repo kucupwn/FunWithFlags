@@ -36,6 +36,7 @@ interface Props {
   guessed: Guessed;
   setGuessed: Dispatch<SetStateAction<Guessed>>;
   gameMode: GameMode;
+  capitalOptionsHidden: boolean;
 }
 
 export function Capitals({
@@ -43,6 +44,7 @@ export function Capitals({
   guessed,
   setGuessed,
   gameMode,
+  capitalOptionsHidden,
 }: Props) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [capitalRevealed, setCapitalRevealed] = useState<boolean>(
@@ -116,23 +118,26 @@ export function Capitals({
 
   return (
     <>
-      {guessed.flag && currentCountry?.capital !== "" && (
-        <ButtonWrapper>
-          {answers.map((ans, i) => (
-            <AnswerButton
-              key={ans}
-              onClick={() => checkAnswer(ans)}
-              $revealed={capitalRevealed}
-              $selected={ans === selectedAnswer}
-              $correct={ans === currentCountry?.capital}
-            >
-              {`${i + 1}. ${ans}`}
-            </AnswerButton>
-          ))}
-        </ButtonWrapper>
-      )}
+      {guessed.flag &&
+        currentCountry?.capital !== "" &&
+        !capitalOptionsHidden && (
+          <ButtonWrapper>
+            {answers.map((ans, i) => (
+              <AnswerButton
+                key={ans}
+                onClick={() => checkAnswer(ans)}
+                $revealed={capitalRevealed}
+                $selected={ans === selectedAnswer}
+                $correct={ans === currentCountry?.capital}
+              >
+                {`${i + 1}. ${ans}`}
+              </AnswerButton>
+            ))}
+          </ButtonWrapper>
+        )}
 
       {capitalRevealed &&
+        capitalOptionsHidden &&
         currentCountry?.capital &&
         ((selectedAnswer && currentCountry?.capital === selectedAnswer) ||
         selectedAnswer === "" ? (
