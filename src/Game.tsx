@@ -52,8 +52,10 @@ export function Game({ gameMode }: Props) {
     capital: !gameMode.capital,
   });
   const [round, setRound] = useState(0);
+  const [capitalOptionsHidden, setCapitalOptionsHidden] =
+    useState<boolean>(false);
 
-  function getNext() {
+  function getNextCountry() {
     if (countries.length === 0) {
       setCurrentCountry(null);
       return;
@@ -87,7 +89,10 @@ export function Game({ gameMode }: Props) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
-        getNext();
+        getNextCountry();
+        setCapitalOptionsHidden(false);
+      } else if (event.key === "ArrowDown" && guessed.capital) {
+        setCapitalOptionsHidden(true);
       }
     };
 
@@ -96,13 +101,13 @@ export function Game({ gameMode }: Props) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [getNext]);
+  }, [getNextCountry]);
 
   return (
     <GameContainer>
       <TopWrapper>
         <Counter countries={countries} />
-        <NextButton onClick={getNext}>Next</NextButton>
+        <NextButton onClick={getNextCountry}>Next</NextButton>
       </TopWrapper>
       <Flags
         key={`${currentCountry?.id}-${round}`}
@@ -118,6 +123,7 @@ export function Game({ gameMode }: Props) {
           guessed={guessed}
           setGuessed={setGuessed}
           gameMode={gameMode}
+          capitalOptionsHidden={capitalOptionsHidden}
         />
       )}
     </GameContainer>
