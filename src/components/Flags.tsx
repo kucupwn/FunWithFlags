@@ -9,13 +9,12 @@ const FlagSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-self: center;
   gap: 1rem;
 `;
 
 const FlagContainer = styled.div`
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
 
   @media (max-width: 768px) {
     width: 300px;
