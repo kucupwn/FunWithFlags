@@ -15,6 +15,10 @@ export function App() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
 
   function startGame() {
+    if (!gameMode.flag && !gameMode.capital) {
+      return;
+    }
+
     setGameStarted(true);
   }
 
