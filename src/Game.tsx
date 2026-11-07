@@ -173,15 +173,21 @@ export function Game({ gameMode }: Props) {
       <GameContainer>
         {currentCountry !== null && (
           <Shortcuts aria-label="Keyboard shortcuts">
-            <span>
-              <Kbd>Enter</Kbd> guess
-            </span>
-            <span>
-              <Kbd>F2</Kbd> reveal
-            </span>
-            <span>
-              <Kbd>1</Kbd>–<Kbd>4</Kbd> pick capital
-            </span>
+            {gameMode.flag && (
+              <>
+                <span>
+                  <Kbd>Enter</Kbd> guess
+                </span>
+                <span>
+                  <Kbd>F2</Kbd> reveal
+                </span>
+              </>
+            )}
+            {gameMode.capital && (
+              <span>
+                <Kbd>1</Kbd>–<Kbd>4</Kbd> pick capital
+              </span>
+            )}
             <span>
               <Kbd>→</Kbd> next flag
             </span>
@@ -195,7 +201,7 @@ export function Game({ gameMode }: Props) {
           setGuessed={setGuessed}
           gameMode={gameMode}
         />
-        {guessed.flag && currentCountry !== null && (
+        {gameMode.capital && guessed.flag && currentCountry !== null && (
           <Capitals
             key={`${currentCountry.capital}-${round}`}
             currentCountry={currentCountry}

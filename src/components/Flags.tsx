@@ -157,6 +157,19 @@ const Feedback = styled.p`
   color: var(--wrong);
 `;
 
+const CapitalLine = styled.p`
+  margin-top: 0.6rem;
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+
+  strong {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+`;
+
 const EndTitle = styled.h2`
   font-size: clamp(2rem, 6vw, 2.75rem);
   letter-spacing: -0.02em;
@@ -333,6 +346,11 @@ export function Flags({
                 Revealed. This flag will come back later.
               </Status>
             ))}
+          {gameMode.flag && !gameMode.capital && guessed.flag && (
+            <CapitalLine>
+              Capital: <strong>{currentCountry.capital || "N/A"}</strong>
+            </CapitalLine>
+          )}
         </Answer>
       )}
     </FlagSection>
