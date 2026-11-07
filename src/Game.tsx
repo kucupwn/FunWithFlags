@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { Capitals } from "./components/Capitals";
 import { Counter } from "./components/Counter";
 import type { GameMode } from "./App";
+import { GhostButton, Kbd } from "./components/ui";
+import { ArrowRightIcon } from "./components/icons";
 
 export interface Country {
   id: number;
@@ -18,24 +20,71 @@ export interface Guessed {
   capital: boolean;
 }
 
-const GameContainer = styled.div`
+const Page = styled.div`
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
 `;
 
-const NextButton = styled.button`
-  width: 80px;
-  font-size: 20px;
-`;
-
-const TopWrapper = styled.div`
+const TopBar = styled.header`
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  min-width: 500px;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--rule);
+`;
+
+const Wordmark = styled.p`
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+
+  em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--sea);
+  }
+
+  @media (max-width: 560px) {
+    display: none;
+  }
+`;
+
+const GameContainer = styled.main`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(16px, 3vh, 28px) 16px 32px;
+`;
+
+/* Sits above the flag so it never moves as feedback appears below */
+const Shortcuts = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  @media (hover: none) {
+    display: none;
+  }
 `;
 
 interface Props {
@@ -104,29 +153,59 @@ export function Game({ gameMode }: Props) {
   }, [getNextCountry]);
 
   return (
-    <GameContainer>
-      <TopWrapper>
+    <Page>
+      <TopBar>
+        <Wordmark>
+          Fun with <em>Flags</em>
+        </Wordmark>
         <Counter countries={countries} />
-        <NextButton onClick={getNextCountry}>Next</NextButton>
-      </TopWrapper>
-      <Flags
-        key={`${currentCountry?.id}-${round}`}
-        countries={countries}
-        currentCountry={currentCountry}
-        guessed={guessed}
-        setGuessed={setGuessed}
-        gameMode={gameMode}
-      />
-      {guessed.flag && currentCountry !== null && (
-        <Capitals
-          key={`${currentCountry.capital}-${round}`}
+        <GhostButton
+          type="button"
+          onClick={() => {
+            getNextCountry();
+            setCapitalOptionsHidden(false);
+          }}
+        >
+          Next
+          <ArrowRightIcon />
+        </GhostButton>
+      </TopBar>
+      <GameContainer>
+        {currentCountry !== null && (
+          <Shortcuts aria-label="Keyboard shortcuts">
+            <span>
+              <Kbd>Enter</Kbd> guess
+            </span>
+            <span>
+              <Kbd>F2</Kbd> reveal
+            </span>
+            <span>
+              <Kbd>1</Kbd>–<Kbd>4</Kbd> pick capital
+            </span>
+            <span>
+              <Kbd>→</Kbd> next flag
+            </span>
+          </Shortcuts>
+        )}
+        <Flags
+          key={`${currentCountry?.id}-${round}`}
+          countries={countries}
           currentCountry={currentCountry}
           guessed={guessed}
           setGuessed={setGuessed}
           gameMode={gameMode}
-          capitalOptionsHidden={capitalOptionsHidden}
         />
-      )}
-    </GameContainer>
+        {guessed.flag && currentCountry !== null && (
+          <Capitals
+            key={`${currentCountry.capital}-${round}`}
+            currentCountry={currentCountry}
+            guessed={guessed}
+            setGuessed={setGuessed}
+            gameMode={gameMode}
+            capitalOptionsHidden={capitalOptionsHidden}
+          />
+        )}
+      </GameContainer>
+    </Page>
   );
 }

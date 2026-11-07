@@ -1,15 +1,125 @@
-body {
-  background-color: antiquewhite;
+@import "@fontsource-variable/fraunces/opsz.css";
+@import "@fontsource-variable/fraunces/opsz-italic.css";
+@import "@fontsource-variable/work-sans/index.css";
+
+:root {
+  color-scheme: light;
+
+  /* Paper and ink */
+  --paper: #f3ead9;
+  --paper-deep: #e8dcc4;
+  --plate: #fbf7ee;
+  --ink: #23201b;
+  --ink-soft: #5a5145;
+  --ink-faint: #766b5a;
+  --rule: #cbbb9d;
+  --rule-strong: #a8977a;
+
+  /* Cartographic accents */
+  --sea: #1f4f5e;
+  --sea-tint: #d6e2e0;
+  --brass: #a8762a;
+  --correct: #3b6a32;
+  --correct-tint: #dfe7cd;
+  --wrong: #9a2f22;
+  --wrong-tint: #f2d9cf;
+
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-ui: "Work Sans Variable", system-ui, sans-serif;
+
+  --radius: 6px;
+  --shadow-plate: 0 1px 1px rgba(60, 44, 20, 0.08),
+    0 8px 24px -8px rgba(60, 44, 20, 0.28);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-p,
-h2 {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-color: var(--rule-strong) var(--paper);
+}
+
+body {
   margin: 0;
-  padding: 0;
+  min-height: 100vh;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  background-color: var(--paper);
+  /* Faint graticule, like the grid on an old atlas plate */
+  background-image:
+    radial-gradient(
+      ellipse at 50% 30%,
+      transparent 40%,
+      rgba(120, 90, 40, 0.1) 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 71px,
+      rgba(35, 32, 27, 0.06) 71px 72px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 71px,
+      rgba(35, 32, 27, 0.06) 71px 72px
+    );
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
 }
 
 button {
   cursor: pointer;
-  background-color: rgb(255, 188, 105);
-  border-radius: 5px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input {
+  caret-color: var(--sea);
+}
+
+::selection {
+  background: var(--sea);
+  color: var(--plate);
+}
+
+:focus-visible {
+  outline: 2px solid var(--sea);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -1,38 +1,144 @@
-import {
-  useState,
-  type ChangeEvent,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import styled from "styled-components";
 import type { GameMode } from "../App";
+import { countries } from "../data/countries";
+import { PrimaryButton } from "./ui";
+import { ArrowRightIcon, CompassIcon } from "./icons";
 
-const MenuContainer = styled.div`
+const Page = styled.main`
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 48px 16px;
+`;
+
+const Sheet = styled.div`
+  width: 100%;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 2.5rem;
+`;
+
+const Masthead = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  text-align: center;
+
+  svg {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto;
+    color: var(--brass);
+  }
+`;
+
+const Title = styled.h1`
+  font-size: clamp(2.75rem, 9vw, 4.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  font-variation-settings: "opsz" 144;
+
+  em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--sea);
+  }
+`;
+
+const Lede = styled.p`
+  text-wrap: balance;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+`;
+
+const Fieldset = styled.fieldset`
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+`;
+
+const Legend = styled.legend`
+  float: left;
+  width: 100%;
+  padding: 1.1rem 0 0.4rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+`;
+
+const Option = styled.label`
+  clear: both;
+  display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
 `;
 
-const SettingRow = styled.div`
+const OptionText = styled.span`
+  flex: 1;
   display: flex;
-  width: 300px;
-  justify-content: space-between;
+  flex-direction: column;
+
+  strong {
+    font-weight: 600;
+  }
+
+  span {
+    color: var(--ink-soft);
+    font-size: 0.925rem;
+  }
 `;
 
-const RadioWrapper = styled.div`
+const Switch = styled.button<{ $on: boolean }>`
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 28px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid ${({ $on }) => ($on ? "var(--sea)" : "var(--rule-strong)")};
+  background: ${({ $on }) => ($on ? "var(--sea)" : "var(--paper-deep)")};
+  transition:
+    background-color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--plate);
+    box-shadow: 0 1px 2px rgba(35, 32, 27, 0.3);
+    transform: translateX(${({ $on }) => ($on ? "20px" : "0")});
+    transition: transform 240ms var(--ease-out);
+  }
+`;
+
+const Footer = styled.div`
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+
+  ${PrimaryButton} {
+    width: 100%;
+    height: 52px;
+    font-size: 1.05rem;
+  }
 `;
 
-const SettingsHeader = styled.p`
-  font-weight: bold;
-  font-size: 18px;
-`;
-
-const StartButton = styled.button`
-  font-size: 20px;
+const Hint = styled.p`
+  min-height: 1.5em;
+  font-size: 0.9rem;
+  color: var(--wrong);
 `;
 
 interface Props {
@@ -40,82 +146,74 @@ interface Props {
   onStartGame: () => void;
 }
 
-type ModeSwitch = "on" | "off";
-
 export function Menu({ setGameMode, onStartGame }: Props) {
-  const [flagMode, setFlagMode] = useState<ModeSwitch>("on");
-  const [capitalMode, setCapitalMode] = useState<ModeSwitch>("on");
+  const [mode, setMode] = useState<GameMode>({ flag: true, capital: true });
+  const nothingSelected = !mode.flag && !mode.capital;
 
-  function handleSwitch(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-
-    if (name === "flag") {
-      setFlagMode(value as ModeSwitch);
-      setGameMode((prev) => ({
-        ...prev,
-        flag: value === "on",
-      }));
-    }
-
-    if (name === "capital") {
-      setCapitalMode(value as ModeSwitch);
-      setGameMode((prev) => ({
-        ...prev,
-        capital: value === "on",
-      }));
-    }
+  function toggle(key: keyof GameMode) {
+    const next = { ...mode, [key]: !mode[key] };
+    setMode(next);
+    setGameMode(next);
   }
 
   return (
-    <MenuContainer>
-      <h1>Fun with Flags</h1>
-      <h2>Select game mode</h2>
-      <SettingRow>
-        <SettingsHeader>Property</SettingsHeader>
-        <RadioWrapper>
-          <SettingsHeader>Yes</SettingsHeader>
-          <SettingsHeader>No</SettingsHeader>
-        </RadioWrapper>
-      </SettingRow>
-      <SettingRow>
-        <span>Flag</span>
-        <RadioWrapper>
-          <input
-            type="radio"
-            name="flag"
-            value="on"
-            checked={flagMode === "on"}
-            onChange={(e) => handleSwitch(e)}
-          />
-          <input
-            type="radio"
-            name="flag"
-            value="off"
-            checked={flagMode === "off"}
-            onChange={(e) => handleSwitch(e)}
-          />
-        </RadioWrapper>
-      </SettingRow>
-      <SettingRow>
-        <span>Capital</span>
-        <RadioWrapper>
-          <input
-            type="radio"
-            name="capital"
-            value="on"
-            checked={capitalMode === "on"}
-            onChange={(e) => handleSwitch(e)}
-          />
-          <input
-            type="radio"
-            name="capital"
-            value="off"
-            checked={capitalMode === "off"}
-            onChange={(e) => handleSwitch(e)}
-          />
-        </RadioWrapper>
-      </SettingRow>
-      <StartButton onClick={onStartGame}>Start</StartButton>
-    </MenuContainer>
+    <Page>
+      <Sheet>
+        <Masthead>
+          <CompassIcon />
+          <Title>
+            Fun with <em>Flags</em>
+          </Title>
+          <Lede>
+            {countries.length} countries and territories. How many can you
+            name?
+          </Lede>
+        </Masthead>
+
+        <Fieldset>
+          <Legend>Rounds</Legend>
+          <Option>
+            <OptionText>
+              <strong>Flags</strong>
+              <span>Name the country from its flag</span>
+            </OptionText>
+            <Switch
+              type="button"
+              role="switch"
+              aria-checked={mode.flag}
+              $on={mode.flag}
+              onClick={() => toggle("flag")}
+            />
+          </Option>
+          <Option>
+            <OptionText>
+              <strong>Capitals</strong>
+              <span>Pick the capital from four choices</span>
+            </OptionText>
+            <Switch
+              type="button"
+              role="switch"
+              aria-checked={mode.capital}
+              $on={mode.capital}
+              onClick={() => toggle("capital")}
+            />
+          </Option>
+        </Fieldset>
+
+        <Footer>
+          <PrimaryButton
+            type="button"
+            onClick={onStartGame}
+            disabled={nothingSelected}
+          >
+            Start the quiz
+            <ArrowRightIcon />
+          </PrimaryButton>
+          <Hint role="status">
+            {nothingSelected ? "Turn on at least one round to play." : ""}
+          </Hint>
+        </Footer>
+      </Sheet>
+    </Page>
   );
 }
