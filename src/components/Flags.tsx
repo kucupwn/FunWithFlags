@@ -346,7 +346,8 @@ export function Flags({
                 Revealed. This flag will come back later.
               </Status>
             ))}
-          {gameMode.flag && !gameMode.capital && guessed.flag && (
+          {/* Shown when there's no capital quiz: flag-only mode, or a country without a capital */}
+          {guessed.flag && (!gameMode.capital || !currentCountry.capital) && (
             <CapitalLine>
               Capital: <strong>{currentCountry.capital || "N/A"}</strong>
             </CapitalLine>
