@@ -103,6 +103,16 @@ export function Game({ gameMode }: Props) {
   const [round, setRound] = useState(0);
   const [capitalOptionsHidden, setCapitalOptionsHidden] =
     useState<boolean>(false);
+  const [capitalAnswered, setCapitalAnswered] = useState(false);
+
+  // When capitals are part of the game, the player must pick a capital
+  // before the right-arrow shortcut can skip to the next country.
+  const awaitingCapital =
+    gameMode.capital &&
+    guessed.flag &&
+    !guessed.capital &&
+    !capitalAnswered &&
+    currentCountry !== null;
 
   function getNextCountry() {
     if (countries.length === 0) {
@@ -118,6 +128,7 @@ export function Game({ gameMode }: Props) {
       capital: !gameMode.capital,
     });
 
+    setCapitalAnswered(false);
     setRound((r) => r + 1);
   }
 
@@ -138,6 +149,7 @@ export function Game({ gameMode }: Props) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
+        if (awaitingCapital) return;
         getNextCountry();
         setCapitalOptionsHidden(false);
       } else if (event.key === "ArrowDown" && guessed.capital) {
@@ -161,6 +173,8 @@ export function Game({ gameMode }: Props) {
         <Counter countries={countries} />
         <GhostButton
           type="button"
+          disabled={awaitingCapital}
+          title={awaitingCapital ? "Pick a capital first" : undefined}
           onClick={() => {
             getNextCountry();
             setCapitalOptionsHidden(false);
@@ -209,6 +223,7 @@ export function Game({ gameMode }: Props) {
             setGuessed={setGuessed}
             gameMode={gameMode}
             capitalOptionsHidden={capitalOptionsHidden}
+            onAnswer={() => setCapitalAnswered(true)}
           />
         )}
       </GameContainer>

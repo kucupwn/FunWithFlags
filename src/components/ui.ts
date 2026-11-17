@@ -86,5 +86,11 @@ export const GhostButton = styled.button`
     background: var(--plate);
     border-color: var(--ink-soft);
   }
+
+  &:disabled {
+    color: var(--ink-faint);
+    border-color: var(--rule);
+    cursor: not-allowed;
+  }
 `;
 

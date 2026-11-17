@@ -118,6 +118,7 @@ interface Props {
   setGuessed: Dispatch<SetStateAction<Guessed>>;
   gameMode: GameMode;
   capitalOptionsHidden: boolean;
+  onAnswer: () => void;
 }
 
 export function Capitals({
@@ -126,6 +127,7 @@ export function Capitals({
   setGuessed,
   gameMode,
   capitalOptionsHidden,
+  onAnswer,
 }: Props) {
   const [answers, setAnswers] = useState<string[]>([]);
   const [capitalRevealed, setCapitalRevealed] = useState<boolean>(
@@ -136,6 +138,7 @@ export function Capitals({
   function checkAnswer(answer: string) {
     setCapitalRevealed(true);
     setSelectedAnswer(answer);
+    onAnswer();
 
     if (answer === currentCountry?.capital) {
       setGuessed((prev) => ({
